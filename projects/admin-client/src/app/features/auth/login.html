@@ -1,0 +1,47 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Admin Login</h1>
+      <p>Sign in to manage your portfolio</p>
+    </div>
+
+    @if (error) {
+      <div class="alert-error">{{ error }}</div>
+    }
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        placeholder="admin@example.com"
+        [(ngModel)]="email"
+        (keyup.enter)="submit()"
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        placeholder="••••••••"
+        [(ngModel)]="password"
+        (keyup.enter)="submit()"
+        autocomplete="current-password"
+      />
+    </div>
+
+    <button class="login-btn" (click)="submit()" [disabled]="loading">
+      @if (loading) {
+        <span class="spinner"></span> Signing in…
+      }
+      @if (!loading) {
+        Login
+      }
+    </button>
+  </div>
+</div>

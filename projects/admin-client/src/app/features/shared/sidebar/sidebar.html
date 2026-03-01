@@ -1,0 +1,15 @@
+<aside class="admin-sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⚡</span>
+    <span>Portfolio Admin</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a routerLink="/projects" routerLinkActive="active" class="nav-item">
+      <span>🗂️</span> Projects
+    </a>
+    <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+      <span>👤</span> Edit Profile
+    </a>
+  </nav>
+  <button class="logout-btn" (click)="auth.logout()">🚪 Logout</button>
+</aside>

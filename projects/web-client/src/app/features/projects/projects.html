@@ -1,0 +1,44 @@
+<div class="page-content">
+  <h1 class="page-title">All Projects</h1>
+  <p class="page-subtitle">Things I've built and worked on.</p>
+
+  @if (error) {
+    <div class="error-state">
+      <p>Could not load projects. Make sure the server is running.</p>
+    </div>
+  } @else {
+    @let projects = projects$ | async;
+    @if (projects === null) {
+      <div class="loading"><span class="spinner"></span> Loading…</div>
+    } @else if (projects.length === 0) {
+      <div class="empty">No published projects yet. Check back soon!</div>
+    } @else {
+      <div class="projects-grid">
+        @for (project of projects; track project._id) {
+          <a [routerLink]="['/projects', project.slug]" class="project-card">
+            @if (project.coverImageUrl) {
+              <div
+                class="card-image"
+                [style.background-image]="'url(' + api + project.coverImageUrl + ')'"
+              ></div>
+            } @else {
+              <div class="card-image placeholder">💻</div>
+            }
+            <div class="card-body">
+              @if (project.featured) {
+                <span class="featured-badge">⭐ Featured</span>
+              }
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.summary }}</p>
+              <div class="card-stack">
+                @for (tech of project.stack; track tech) {
+                  <span class="tech-tag">{{ tech }}</span>
+                }
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  }
+</div>

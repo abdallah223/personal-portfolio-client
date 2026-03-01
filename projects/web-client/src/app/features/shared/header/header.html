@@ -1,0 +1,10 @@
+<nav class="nav">
+  <a routerLink="/home" class="nav-logo">Portfolio</a>
+  <div class="nav-links">
+    @for (navItem of navList; track $index) {
+      <a [routerLink]="navItem.href" routerLinkActive="active" class="nav-link">{{
+        navItem.title
+      }}</a>
+    }
+  </div>
+</nav>

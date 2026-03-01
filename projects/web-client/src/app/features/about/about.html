@@ -1,0 +1,93 @@
+<div class="about-page">
+  @if (error) {
+    <div class="loading"><p>Could not load profile.</p></div>
+  } @else {
+    @let profile = profile$ | async;
+    @if (profile === null) {
+      <div class="loading"><span class="spinner"></span> Loading…</div>
+    } @else {
+      <div class="about-header">
+        <div class="header-left">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            {{ profile.status === 'published' ? 'Open to opportunities' : 'Not available' }}
+          </div>
+          <h1 class="hero-name">{{ profile.name }}</h1>
+          <p class="hero-headline">{{ profile.headline }}</p>
+          <p class="hero-location">📍 {{ profile.location }}</p>
+        </div>
+        <div class="orb-cluster">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">Years Exp</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Curiosity</div>
+        </div>
+      </div>
+
+      <div class="about-body">
+        <div class="about-card">
+          <div class="card-label">About Me</div>
+          <p class="about-text">{{ profile.about }}</p>
+        </div>
+
+        @if (profile.socials) {
+          <div class="about-card">
+            <div class="card-label">Connect</div>
+            <div class="socials">
+              @if (profile.socials.github) {
+                <a
+                  [href]="profile.socials.github"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-link"
+                >
+                  GitHub <span class="social-arrow">↗</span>
+                </a>
+              }
+              @if (profile.socials.linkedin) {
+                <a
+                  [href]="profile.socials.linkedin"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-link"
+                >
+                  LinkedIn <span class="social-arrow">↗</span>
+                </a>
+              }
+              @if (profile.socials.email) {
+                <a [href]="'mailto:' + profile.socials.email" class="social-link">
+                  Email <span class="social-arrow">↗</span>
+                </a>
+              }
+              @if (profile.socials.website) {
+                <a
+                  [href]="profile.socials.website"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-link"
+                >
+                  Website <span class="social-arrow">↗</span>
+                </a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

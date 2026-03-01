@@ -1,0 +1,67 @@
+.admin-sidebar {
+  width: 240px;
+  background: #1a1a24;
+  border-right: 1px solid #2d2d3d;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #a78bfa;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.brand-icon { font-size: 1.4rem; }
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.nav-item:hover,
+.nav-item.active {
+  background: #2d2d3d;
+  color: #a78bfa;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 1px solid #3d3d50;
+  border-radius: 8px;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  width: 100%;
+  font-family: inherit;
+}
+.logout-btn:hover { background: rgba(239, 68, 68, 0.1); }

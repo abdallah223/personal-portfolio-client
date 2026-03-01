@@ -1,0 +1,63 @@
+<div class="admin-content">
+  <header class="admin-header">
+    <div>
+      <h1>Projects</h1>
+      <p>Manage your portfolio projects.</p>
+    </div>
+    <a routerLink="/projects/new" class="btn btn-primary">+ New Project</a>
+  </header>
+
+  @if (loading) {
+    <div class="loading"><span class="spinner"></span> Loading…</div>
+  } @else if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <button class="btn btn-secondary" (click)="load()">Retry</button>
+    </div>
+  } @else if (projects.length === 0) {
+    <div class="empty-state">
+      <p>No projects yet. Click "+ New Project" to add one!</p>
+      <a routerLink="/projects/new" class="btn btn-primary">Create your first project</a>
+    </div>
+  } @else {
+    <div class="projects-list">
+      @for (project of projects; track project._id) {
+        <div class="project-card">
+          <div class="project-img">
+            @if (project.coverImageUrl) {
+              <img [src]="BASE + project.coverImageUrl" [alt]="project.title" />
+            } @else {
+              <div class="no-img">💻</div>
+            }
+          </div>
+          <div class="project-info">
+            <div class="project-title">{{ project.title }}</div>
+            <div class="project-summary">{{ project.summary }}</div>
+            <div class="project-meta">
+              <span class="status-badge" [class.published]="project.status === 'published'">{{
+                project.status
+              }}</span>
+              @if (project.featured) {
+                <span class="featured-badge">⭐ Featured</span>
+              }
+              <span class="stack-preview">{{ project.stack?.slice(0, 3)?.join(' · ') }}</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a [routerLink]="['/projects', project.slug, 'edit']" class="btn-icon" title="Edit"
+              >✏️</a
+            >
+            <button
+              class="btn-icon danger"
+              (click)="delete(project.slug)"
+              [disabled]="deletingSlug === project.slug"
+              title="Delete"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

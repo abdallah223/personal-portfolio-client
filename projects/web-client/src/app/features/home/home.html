@@ -1,0 +1,114 @@
+@let profile = profile$ | async;
+
+@if (profile === null && !profileError) {
+  <div class="loading-hero">
+    <div class="spinner-lg"></div>
+  </div>
+} @else if (profile) {
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">👋 Available for work</div>
+      <h1 class="hero-name">{{ profile.name }}</h1>
+      <p class="hero-headline">{{ profile.headline }}</p>
+      <p class="hero-location">📍 {{ profile.location }}</p>
+      <div class="hero-cta">
+        <a routerLink="/projects" class="btn-primary">View My Work</a>
+        <a routerLink="/about" class="btn-outline">About Me</a>
+      </div>
+      <div class="hero-socials">
+        @if (profile.socials?.github) {
+          <a [href]="profile.socials?.github" target="_blank" class="social-link">GitHub</a>
+        }
+        @if (profile.socials?.linkedin) {
+          <a [href]="profile.socials?.linkedin" target="_blank" class="social-link">LinkedIn</a>
+        }
+        @if (profile.socials?.email) {
+          <a [href]="'mailto:' + profile.socials?.email" class="social-link">Email</a>
+        }
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="code-card">
+        <div class="code-line">
+          <span class="code-keyword">const</span><span class="code-var"> developer</span> = &#123;
+        </div>
+        <div class="code-line">
+          <span class="code-prop">name</span>: <span class="code-str">"{{ profile.name }}"</span>,
+        </div>
+        <div class="code-line">
+          <span class="code-prop">passion</span>: <span class="code-str">"building things"</span>,
+        </div>
+        <div class="code-line">
+          <span class="code-prop">available</span>: <span class="code-bool">true</span>
+        </div>
+        <div class="code-line">&#125;</div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">👋 Available for work</div>
+      <h1 class="hero-name">Portfolio</h1>
+      <p class="hero-headline">Full Stack Developer</p>
+      <div class="hero-cta">
+        <a routerLink="/projects" class="btn-primary">View My Work</a>
+        <a routerLink="/about" class="btn-outline">About Me</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="code-card">
+        <div class="code-line">
+          <span class="code-keyword">const</span> <span class="code-var">developer</span> = &#123;
+        </div>
+        <div class="code-line">
+          <span class="code-prop">passion</span>: <span class="code-str">"building things"</span>,
+        </div>
+        <div class="code-line">
+          <span class="code-prop">available</span>: <span class="code-bool">true</span>
+        </div>
+        <div class="code-line">&#125;</div>
+      </div>
+    </div>
+  </section>
+}
+
+@let featuredProjects = featured$ | async;
+@if (featuredProjects && featuredProjects.length > 0) {
+  <section class="section">
+    <div class="section-header">
+      <h2>Featured Projects</h2>
+      <a routerLink="/projects" class="see-all">See all →</a>
+    </div>
+    <div class="projects-grid">
+      @for (p of featuredProjects; track p._id) {
+        <a [routerLink]="['/projects', p.slug]" class="project-card">
+          @if (p.coverImageUrl) {
+            <div
+              class="card-image"
+              [style.background-image]="'url(' + apiBaseUrl + p.coverImageUrl + ')'"
+            ></div>
+          } @else {
+            <div class="card-image placeholder">💻</div>
+          }
+          <div class="card-body">
+            <h3>{{ p.title }}</h3>
+            <p>{{ p.summary }}</p>
+            <div class="card-stack">
+              @for (tech of p.stack?.slice(0, 4); track tech) {
+                <span class="tech-tag">{{ tech }}</span>
+              }
+              @if ((p.stack?.length ?? 0) > 4) {
+                <span>...</span>
+              }
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  </section>
+}

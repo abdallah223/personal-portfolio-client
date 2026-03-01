@@ -1,0 +1,14 @@
+@if (auth.isLoggedIn()) {
+  <div class="admin-shell">
+    <app-siderbar></app-siderbar>
+    <main class="admin-main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+} @else {
+  <router-outlet></router-outlet>
+}
+
+@if (toastSvc.toast) {
+  <div [class]="'toast toast-' + toastSvc.toast.type">{{ toastSvc.toast.message }}</div>
+}

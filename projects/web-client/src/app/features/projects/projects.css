@@ -1,0 +1,52 @@
+.page-content { padding: 4rem 5%; min-height: calc(100vh - 65px); }
+.page-title { font-size: 2.5rem; font-weight: 800; color: #f1f5f9; margin-bottom: 0.5rem; }
+.page-subtitle { color: #64748b; margin-bottom: 3rem; }
+
+.loading { display: flex; justify-content: center; padding: 4rem; }
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid #2d2d3d; border-top-color: #7c3aed;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty { text-align: center; padding: 4rem; color: #64748b; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.project-card {
+  background: #1a1a24; border: 1px solid #2d2d3d;
+  border-radius: 16px; overflow: hidden;
+  text-decoration: none; color: inherit;
+  transition: all 0.3s; display: block;
+}
+.project-card:hover {
+  border-color: #7c3aed; transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
+}
+.card-image { height: 180px; background-size: cover; background-position: center; }
+.card-image.placeholder {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; background: #0f0f13;
+}
+.card-body { padding: 1.5rem; }
+.featured-badge {
+  background: rgba(234, 179, 8, 0.15); color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  padding: 0.2rem 0.6rem; border-radius: 999px;
+  font-size: 0.75rem; margin-bottom: 0.75rem; display: inline-block;
+}
+.card-body h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #f1f5f9; }
+.card-body p { color: #64748b; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.card-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tech-tag {
+  background: rgba(124, 58, 237, 0.1); color: #a78bfa;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem;
+}
+
+.error-state { text-align: center; padding: 4rem; color: #64748b; }
+.error-state p { color: #ef4444; }

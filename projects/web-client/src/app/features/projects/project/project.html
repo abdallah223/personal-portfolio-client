@@ -1,0 +1,73 @@
+@if (error) {
+  <div class="not-found">
+    <h2>Project not found</h2>
+    <a routerLink="/projects" class="btn-primary">← Back to Projects</a>
+  </div>
+} @else {
+  @let project = project$ | async;
+  @if (project === null) {
+    <div class="loading"><div class="spinner"></div></div>
+  } @else {
+    <article class="project-detail">
+      <!-- Hero -->
+      <div class="project-hero">
+        @if (project.coverImageUrl) {
+          <img [src]="api + project.coverImageUrl" [alt]="project.title" class="hero-image" />
+        }
+        <div class="hero-overlay">
+          <a routerLink="/projects" class="back-link">← All Projects</a>
+          <h1>{{ project.title }}</h1>
+          <p class="summary">{{ project.summary }}</p>
+          <div class="hero-links">
+            @if (project.links?.live) {
+              <a [href]="project.links!.live" target="_blank" class="btn-primary">🔗 Live Demo</a>
+            }
+            @if (project.links?.repo) {
+              <a [href]="project.links!.repo" target="_blank" class="btn-outline">GitHub →</a>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <div class="main-content">
+          @if (project.problem) {
+            <section class="content-section">
+              <h2>🎯 The Problem</h2>
+              <p>{{ project.problem }}</p>
+            </section>
+          }
+          @if (project.solution) {
+            <section class="content-section">
+              <h2>💡 The Solution</h2>
+              <p>{{ project.solution }}</p>
+            </section>
+          }
+          @if (project.impact && project.impact.length > 0) {
+            <section class="content-section">
+              <h2>📈 Impact</h2>
+              <ul class="impact-list">
+                @for (item of project.impact; track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            </section>
+          }
+        </div>
+
+        <aside class="sidebar">
+          @if (project.stack && project.stack.length > 0) {
+            <div class="sidebar-card">
+              <h3>Tech Stack</h3>
+              <div class="tag-list">
+                @for (tech of project.stack; track tech) {
+                  <span class="tech-tag">{{ tech }}</span>
+                }
+              </div>
+            </div>
+          }
+        </aside>
+      </div>
+    </article>
+  }
+}
