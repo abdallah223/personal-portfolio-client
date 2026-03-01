@@ -2,6 +2,36 @@
 
 A production-style Angular frontend for a developer portfolio, built to consume a public API and present profile + project content in a clean, resilient UI.
 
+## Quick Start (Run First)
+
+Prerequisite:
+- Start the backend server first (`portfolio-task/server`) before running `web-client` or `admin-client`.
+- Both clients depend on API endpoints from the running server.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run `web-client`:
+   ```bash
+   npm run start-web
+   ```
+3. Open:
+   - `http://localhost:4200`
+4. Run `admin-client` in a second terminal:
+   ```bash
+   npm run start-admin
+   ```
+5. Open:
+   - `http://localhost:4201`
+
+Important:
+- Port `4201` for `admin-client` is mandatory in this project because the npm script is intentionally configured that way (`ng serve admin-client --port 4201`).
+- Do not change this port in local runs; this setup is used to avoid conflict patterns during client/backend integration and CORS behavior testing.
+
+Admin login (current seed user):
+- Email: `admin@portfolio.com`
+- Password: `admin@123456`
+
 ## Mentor Note
 This README is written to explain not only what I built, but why I made these implementation choices.
 
@@ -27,6 +57,8 @@ Build a portfolio web client that:
   - full projects list on Projects page
   - full project details by slug
   - profile data on Home and About pages
+- Admin client for authenticated content management (profile and projects)
+- Shared package used across clients to keep contracts consistent
 
 ## Why I Built It This Way
 - `standalone` components: keeps module overhead low and is aligned with modern Angular patterns.
@@ -35,6 +67,7 @@ Build a portfolio web client that:
 - route param + `switchMap` in project details: ensures the page reacts correctly if slug changes.
 - explicit error flags in each feature: allows user-friendly fallbacks instead of broken UI when backend is unavailable.
 - shared model package: keeps typing consistent between clients and reduces duplicated interfaces.
+- split web/admin clients: separates public browsing concerns from dashboard management concerns.
 
 ## Behavior and UX States Implemented
 - loading states while requests are pending
@@ -51,6 +84,8 @@ Build a portfolio web client that:
 - Vitest (configured via Angular test command)
 
 ## API Assumptions
+
+### web-client
 Configured in `projects/web-client/src/environments/environment.ts`:
 - `apiUrl`: `http://localhost:3000/api/v1/public`
 - `baseUrl`: `http://localhost:3000/`
@@ -60,19 +95,31 @@ Expected endpoints:
 - `GET /projects/:slug`
 - `GET /profile`
 
-## Run Locally
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start dev server:
-   ```bash
-   npm start
-   ```
-3. Open:
-   - `http://localhost:4200`
+Headers:
+- `Content-Type: application/json` (default for JSON requests)
+- No `Authorization` header required for public endpoints
 
-## Test
+### admin-client
+Configured in `projects/admin-client/src/environments/environment.ts`:
+- `apiUrl`: `http://localhost:3000/api/v1/private/`
+- `apiAuthUrl`: `http://localhost:3000/api/v1/auth`
+- `baseUrl`: `http://localhost:3000/`
+- `tokenKey`: `admin_token`
+
+Expected endpoints:
+- `POST /auth/login`
+- `GET /private/projects`
+- `GET /private/projects/:slug`
+- `POST /private/projects`
+- `PATCH /private/projects/:slug`
+- `DELETE /private/projects/:slug`
+- `GET /private/profile`
+- `PATCH /private/profile`
+
+Headers:
+- `Content-Type: application/json` for JSON requests
+- `Authorization: Bearer <accessToken>` for private endpoints after login
+- For file upload (`FormData`) requests, browser sets `Content-Type` automatically`r`n`r`n## Test
 ```bash
 npm test
 ```
@@ -88,7 +135,25 @@ npm test
 - `projects/web-client/src/app/features/projects`
 - `projects/web-client/src/app/features/about`
 - `projects/web-client/src/app/services`
+- `projects/admin-client/src/app/features`
 - `projects/shared/src/lib/models.ts`
 
 ## Summary for Review
-This client is intentionally structured to separate concerns (routing, data fetching, view rendering), keep type safety across app boundaries, and provide resilient user-facing states for real API conditions.
+I built this as a monorepo Angular portfolio system with two clients and a shared model package:
+- `web-client` for public portfolio presentation
+- `admin-client` for managing portfolio content
+- `shared` for strict and reusable types between both apps
+
+What I focused on:
+- separation of concerns (routing, data layer, UI)
+- resilient UI behavior for real API failures
+- maintainable and scalable structure instead of one-off page code
+- explicit environment-based API configuration
+
+Why this matters:
+- it demonstrates production-ready frontend patterns (typed contracts, stream-based state, error handling)
+- it is easier to extend with authentication, role-based actions, and deployment environments
+- it reflects deliberate engineering choices, not only visual implementation
+
+
+
